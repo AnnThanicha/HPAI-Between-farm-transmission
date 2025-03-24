@@ -1,0 +1,68 @@
+This is the source files that I used for download raw shape files data.
+Due to the large size of data, I ddid not include the raw files in the data folder. 
+But you can find the  processed file in the data folders.
+
+Farm census
+https://opendata.cbs.nl/statline/portal.html?_la=en&_catalog=CBS&tableId=80783eng&_theme=1157
+
+Free GIS
+https://freegisdata.rtwilson.com/index.html#land-use
+
+
+Urban Morphological Zones (vector)
+https://www.eea.europa.eu/en/datahub/datahubitem-view/24129a43-4bc6-403a-aab8-7f500e69f8be
+defined as a "set of urban areas laying less than 200 m apart
+
+Map for the Netherlands
+https://gisdata.mapog.com/netherlands/agricultural_lands_polygon
+
+Many dataset for Netherlands
+https://www.pdok.nl/datasets
+
+With QuickOSM plugin you could easily download just the major roads, train tracks, rivers and lakes from OpenStreetMap directly into QGIS.
+ http://download.geofabrik.de/europe/netherlands.html
+
+Protected area
+https://www.protectedplanet.net/country/NLD
+
+Netherlands road 
+https://mapcruzin.com/free-netherlands-arcgis-maps-shapefiles.htm
+
+Netherlands shape file
+https://gadm.org/download_country.html
+
+Water areas
+https://nationaalgeoregister.nl/geonetwork/srv/dut/catalog.search#/metadata/110f9ec6-4464-462e-9765-83d90cefbead
+https://service.pdok.nl/kadaster/hy/atom/v1_0/hydrografie.xml
+or from top10NL
+
+Dataset: Reference plots
+Geographical delimitation of agricultural land in the Netherlands (land used as arable land, permanent grassland or the cultivation of permanent crops). Previously this dataset was known as the Agricultural Area Netherlands (AAN)
+https://www.pdok.nl/atom-downloadservices/-/article/referentiepercelen#18005089a2ca5b55878822c00211b4b3
+
+Land cover
+https://www.pdok.nl/atom-downloadservices/-/article/bodemgebruik-inspire-geharmoniseerd-
+https://service.pdok.nl/kadaster/lu/atom/v1_0/gepland_landgebruik.xml
+
+Water birds 
+https://stats.sovon.nl/stats/gebieden
+
+Natura 2000
+https://sdi.eea.europa.eu/webdav/datastore/public/eea_v_3035_100_k_natura2000_p_2021_v12_r01/GPKG/
+https://service.pdok.nl/rvo/natura2000/atom/natura_2000.xml
+
+Wetlands
+https://www.pdok.nl/introductie/-/article/wetlands-inspire-geharmoniseerd-
+
+Land Use - Land Cover (INSPIRE harmonized)
+https://service.pdok.nl/kadaster/lc/atom/v1_0/lc.xml
+
+CBS landuse 
+https://service.pdok.nl/cbs/bestandbodemgebruik/2017/atom/bestand_bodemgebruik_2017.xml
+
+
+Inhabitant in sq.km.
+https://service.pdok.nl/cbs/pd/atom/v1_0/nl-population-distribution.xml
+
+Inhabitant in 500 sqm.
+https://service.pdok.nl/cbs/vierkantstatistieken500m/atom/cbs_vierkantstatistieken_500m.xml
