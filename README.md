@@ -6,5 +6,5 @@ Avian influenza and poultry farms"
 Authors: Thanicha Chanchaidechachai*, Egil A.J. Fischer, Arjan Stegeman
 Affiliation: Department Population Health Sciences, Farm Animal Health, Faculty of Veterinary Medicine, Utrecht University
 
-* contact: thanicha.c@outlook.co.th
+* If you have any questions, please contact: thanicha.c@outlook.co.th
   
