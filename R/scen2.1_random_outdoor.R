@@ -137,14 +137,14 @@ diag(size_matrix) <- 0
 
 
 # Run model --------------
-files <- list.files(path ="./data/scen1")
+files <- list.files(path ="./data/scen2.1")
 
 source("./R/event.R")
 
 for(j in 1:length(files)){
   result <- list()
   infect <- farm_df$infect
-  suscep <- readRDS(paste0("./data/scen1/",files[j]))
+  suscep <- readRDS(paste0("./data/scen2.1/",files[j]))
   
   
   for(i in 1:numsim) {
