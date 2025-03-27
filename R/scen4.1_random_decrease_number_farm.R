@@ -150,3 +150,89 @@ for(j in 1:length(files)){
   saveRDS(results, paste0("./results/scen4.1/","Sim4.1_layer",per_thin_layer,"_broiler", per_thin_broiler,"_high",".rds" )) 
   gc()
 }
+
+# Simulate outbreak high index-------------------------
+
+farm_df <- farm_024
+
+# Express the coordinates as complex numbers for fast calculation of the euclidean distance
+matrix_points <- farm_df[,c("X","Y")]
+totpoints <- nrow(matrix_points) # total number of points
+colnames(matrix_points) <- c("xcoord","ycoord")
+# add a column for the index
+Index_points <- c(1:totpoints)
+Coord <- (complex(length.out=2,real=matrix_points$xcoord,imaginary=matrix_points$ycoord));
+distancematrix <- as.matrix(abs(outer(Coord,Coord,"-")))
+distancematrix <- distancematrix/1000 # change to km
+
+# create an hazard matrix evaluating for each host j the chance to be infected by host i as a function of distance 
+hazardmatrix_before  <- as.matrix(apply(distancematrix,MARGIN=c(1,2),FUN=h_kernel))
+
+# Create matrix for farm size
+theta = 7490
+# Create farm size matrix
+farm_df$mod_size <- 1-exp(-1*farm_df$size/theta)
+size_matrix <- as.matrix(abs(outer(farm_df$mod_size,farm_df$mod_size,"*")))
+diag(size_matrix) <- 0
+
+numsim <- 1000
+
+# Now 47.5% of layer farms is outdoor and 6.5% of broiler is outdoor, this will be baseline
+# if we calculate from the (outdoor broilers+layers)/(total broilers+layers) = (46+421)/1598 = 0.29
+
+
+
+# Change all layer and broiler farms to outdoor
+farm_df$suscep[farm_df$type2 == "BROILER"] <- "0.8442"
+farm_df$suscep[farm_df$type2 == "LAYER"] <- "6.3"
+suscep_outdoor <- as.numeric(as.character(farm_df$suscep))
+het_matrix <-  as.matrix(abs(outer(suscep_outdoor,farm_df$infect,"*")))
+
+# Multiplied hazard matrix
+hazardmatrix_before_thin <- hazardmatrix_before * het_matrix * size_matrix
+diag(hazardmatrix_before_thin) <- 0
+
+# Run model --------------
+for(j in 1:length(Scen6.2_intersect_farm)){
+  result <- list()
+  source("event.R")
+  infect <- farm_df$infect
+  infect[Scen6.2_intersect_farm[[j]]$host_id] <- 0
+  
+  # thin out matrix
+  thin_martrix <- outer(infect, infect, "*")
+  
+  # With censor matrix
+  hazardmatrix <- hazardmatrix_before_thin * thin_martrix
+  diag(hazardmatrix) <- 0 # because the chance of infecting itself is 0
+  
+  for(i in 1:numsim) {
+    
+    # take T_inf and Q_inf
+    T_inf <- T_inf_matrix[i,]   # rgamma(totpoints,10, scale=7/10) # mean=7, std=2
+    Q_init <- Q_init_matrix[i,] # rexp(totpoints, rate = 1) # these are the thresholds (exposure to infection) picked from an exponential distribution of mean 1
+    # Define index case 
+    K <- sample(which(farm_df$index=="high" & infect !=0), size = 1) # random index case, but not choosing thin out farms
+    
+    source("InitSim.R") # initialization and setting of the first infected
+    while(nrow(Queue)!=0){
+      source("Simloop.R")
+      result[[i]] <- History
+      
+    }
+    print(i)
+  }
+  # Summarise outcomes -------
+  # bind list
+  results <- bind_rows(result, .id = "iter")
+  per_thin_layer <- ceiling(sum(farm_df$host_id %in% c(Scen6.2_intersect_farm[[j]]$host_id) & farm_df$type2 =="LAYER")/sum(farm_df$type2 =="LAYER")*100)
+  results$per_thin_layer  <- per_thin_layer 
+  per_thin_broiler <- ceiling(sum(farm_df$host_id %in% c(Scen6.2_intersect_farm[[j]]$host_id) & farm_df$type2 =="BROILER")/sum(farm_df$type2 =="BROILER")*100)
+  results$per_thin_broiler <- per_thin_broiler
+  results$scen <- "scen6.2"
+  results$cluster <- "buffer"
+  results$dist <- buff_dist[j]
+  results$index <- "high"
+  saveRDS(results, paste0("Sim6.2_layer",per_thin_layer,"_broiler", per_thin_broiler,"_high",".rds" )) 
+  gc()
+}
